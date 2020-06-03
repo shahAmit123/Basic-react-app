@@ -20,34 +20,35 @@ class Table extends Component {
          if(per.marks < 50 && per.marks >= 0 ){
             per.status = 'Fail';
          }
-         else if(per.marks >=50 && per.marks <=100){
+         else if(per.marks >= 50 && per.marks <= 100){
             per.status = 'Pass';
          }
          else{
-            per.status = 'Wrong input';
+            per.status = 'None';
          }
       });
       this.setState({tablevalue : tabledata})
    }
    editMarks = (index) => {
-      this.state.tablevalue.filter((per) => (per._id === index )).map(per => this.setState({selectedperson : per}));
-      console.log(this.state.selectedperson);
-      
+      this.state.tablevalue.filter((per) => (per._id === index )).map(per => this.setState({selectedperson : per}));      
    }
 
    editHandler = (event) => {
-      const selectedperson_temp = this.state.selectedperson;
+      let selectedperson_temp = this.state.selectedperson;
       selectedperson_temp.marks = event.target.value;
       this.setState({selectedperson : selectedperson_temp});      
    }
+
    updateMarks = () => {
       let tablevalue_temp = this.state.tablevalue;
+      let selectedperson_temp = this.state.selectedperson;
       tablevalue_temp.filter((per) => (per._id === this.state.selectedperson._id)).map((per) => (per.marks = this.state.selectedperson.marks));
-      this.setState({tablevalue : tablevalue_temp})
-      console.log("temp",tablevalue_temp);
-      console.log(this.state.tablevalue);
+      this.setState({tablevalue : tablevalue_temp});
+      axios.put(`http://localhost:5000/updatedata/${selectedperson_temp._id}`,selectedperson_temp).then(res => console.log(res));
       this.setState({selectedperson : {}})
+      this.statusHandler();
    }
+
   render() { 
 
       let person = (
@@ -61,7 +62,7 @@ class Table extends Component {
             <p>Marks : {this.state.selectedperson.marks}</p>
             <p>Status : {this.state.selectedperson.status}</p>
             <input type="number" placeholder={this.state.selectedperson.marks} onChange={this.editHandler}></input>
-            <button onClick={this.updateMarks}>Update marks</button>             
+            <button className="button" onClick={this.updateMarks}>Update marks</button>             
          </div>          
       );
       
@@ -86,10 +87,8 @@ class Table extends Component {
                   <td>{per.status}</td>
                </tr>            
                ))}
-         </table>          
-         <button
-         onClick={this.statusHandler}>Get Status</button>  
-         <button
+         </table>            
+         <button className="button"
          onClick={this.dataHandler}>Get Data</button>         
          {person}
       </div>  
