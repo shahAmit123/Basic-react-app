@@ -5,7 +5,7 @@ function Navbar() {
   return (
       <div>
         <header>
-            <h1>CODE<span>INSTICT</span></h1>
+        <img src={process.env.PUBLIC_URL + '/logo2.png'} alt="logo"/><h1>Student<span>List</span></h1>
             <nav>
                 <ul>
                     <li><Link to="/">Home</Link></li>

@@ -44,7 +44,7 @@ class Table extends Component {
       let selectedperson_temp = this.state.selectedperson;
       tablevalue_temp.filter((per) => (per._id === this.state.selectedperson._id)).map((per) => (per.marks = this.state.selectedperson.marks));
       this.setState({tablevalue : tablevalue_temp});
-      axios.put(`http://localhost:5000/updatedata/${selectedperson_temp._id}`,selectedperson_temp).then(res => console.log(res));
+      axios.put(`http://localhost:5000/updatedata/${selectedperson_temp._id}`,selectedperson_temp).catch((err) => console.log(err));
       this.setState({selectedperson : {}})
       this.statusHandler();
    }
@@ -61,6 +61,7 @@ class Table extends Component {
             <p>Roll no : {this.state.selectedperson.rollno}</p>
             <p>Marks : {this.state.selectedperson.marks}</p>
             <p>Status : {this.state.selectedperson.status}</p>
+            <label><h2>Edit marks</h2></label>
             <input type="number" placeholder={this.state.selectedperson.marks} onChange={this.editHandler}></input>
             <button className="button" onClick={this.updateMarks}>Update marks</button>             
          </div>          
@@ -69,6 +70,7 @@ class Table extends Component {
       return (
       <div>
          <table>
+            <tbody>
             <tr>
                <th>Name</th>
                <th>Class</th>
@@ -78,7 +80,7 @@ class Table extends Component {
                <th>Status</th>
             </tr>
             {this.state.tablevalue.map((per) => (
-               <tr>
+               <tr key={per._id}>
                   <td>{per.name}</td>
                   <td>{per.class}</td>
                   <td>{per.section}</td>
@@ -87,6 +89,7 @@ class Table extends Component {
                   <td>{per.status}</td>
                </tr>            
                ))}
+            </tbody>
          </table>            
          <button className="button"
          onClick={this.dataHandler}>Get Data</button>         
