@@ -3,7 +3,7 @@ import Navbar from '../Navbar/Navbar';
 import Table from '../Table/Table';
 import About from '../About/About';
 import Contact from '../Contact/Contact';
-import { BrowserRouter ,Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 function Project() {
   return (
       <div>
